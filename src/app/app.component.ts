@@ -147,7 +147,7 @@ export class MyApp {
         platform.ready().then(() => {
             statusBar.overlaysWebView(false);
             splashScreen.hide();    
-            statusBar.backgroundColorByHexString('#FFFF00');   
+            statusBar.backgroundColorByHexString('#f5c000');   
             this.get_user_lang();
         });
         
