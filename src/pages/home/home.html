@@ -2,11 +2,13 @@
 <ion-header>
     <ion-toolbar>
 
-        <img src="assets/imgs/reward.png" class="reward-img">
-
+        <!-- <img src="assets/imgs/reward.png" class="reward-img"> -->
+      
         <ion-title>
             <div class="company-logo">
                 <img src="assets/imgs/logo.png">
+                <span  class="reward-text"> REWARDS</span>
+
             </div>
         </ion-title>
         <ion-buttons end (click)="share()" *ngIf="karigar_detail.user_type!=3">
@@ -92,7 +94,7 @@
                 </div>
                 <p>{{'My Profile' | translate}}</p>
             </li>
-            <li (click)="scan_tips()" *ngIf="karigar_detail.user_type == 1 && karigar_detail.status =='Verified' ">
+            <li (click)="scanCoupon()" *ngIf="karigar_detail.user_type == 1 && karigar_detail.status =='Verified' ">
                 <div class="img-view">
                     <img src="assets/imgs/home-icon/scane.svg">
                 </div>

@@ -200,6 +200,7 @@
       "Your document details are missing":"आपके दस्तावेज़ विवरण गायब हैं",
 	"Are you sure to redeem your":"क्या आप निश्चित रूप से अपना रिडीम करना चाहते हैं",
 	"points":"अंक",
+      "Points":"अंक",
 	"Enter your 6 digit number that sent to":"अपना 6 अंकों का नंबर दर्ज करें जिसे भेजा गया",
 	"Same as Permanent Address":"स्थायी पते के समान",
       "Same as login number":"लॉगिन नंबर के समान",
@@ -214,5 +215,7 @@
       "Other Type":"अन्य प्रकार",
       "Architect Points":"वास्तुकार अंक",
       "Reason":"कारण",
-      "Architect Points Detail":"वास्तुकार अंक विवरण"
+      "Architect Points Detail":"वास्तुकार अंक विवरण",
+      "Account Holder Name":"खाताधारक का नाम",
+      "Cancellation Policy":"रद्द करने की नीति"
 }

@@ -37,11 +37,16 @@ export class GiftDetailPage {
         this.get_user_lang();
     }
     
-    presentCancelPolicyModal() {
-        let contactModal = this.modalCtrl.create(CancelpolicyModalPage,{'karigar_id':this.service.karigar_id,'gift_id':this.gift_id});
-        contactModal.present();
-        console.log('otp');
-    }
+    
+    presentCancelPolicyModal(point) {
+		console.log(point);
+		let gift = 'gift'
+
+		
+		let contactModal = this.modalCtrl.create(CancelpolicyModalPage,{'karigar_id':this.service.karigar_id,'gift_id':this.gift_id, 'redeem_type':gift, 'redeem_point':point});
+		contactModal.present();
+		console.log('otp');
+	}
     goOnOfferDetailPage(offer_id)
     {
         this.navCtrl.push(OffersPage,{'id':offer_id})

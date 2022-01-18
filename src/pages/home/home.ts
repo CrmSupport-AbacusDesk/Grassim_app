@@ -35,6 +35,7 @@ import { LanguagePage } from '../language/language';
 import { ArrivalProductPage } from '../arrival-product/arrival-product';
 import { OfferProductPage } from '../offer-product/offer-product';
 import { ContractorListPage } from '../contractor/contractor-list/contractor-list';
+import { RedeemTypePage } from '../redeem-type/redeem-type';
 @Component({
     selector: 'page-home',
     templateUrl: 'home.html'
@@ -55,6 +56,9 @@ export class HomePage {
     active:boolean = false;
     offer_detail:any={};
     language:any=[];
+    testRadioOpen:any='';
+    testRadioResult:any='';
+    value:string='';
     constructor(public navCtrl: NavController,public service:DbserviceProvider,public loadingCtrl:LoadingController,public storage:Storage, private barcodeScanner: BarcodeScanner,public alertCtrl:AlertController,public modalCtrl: ModalController,private push: Push,public translate:TranslateService,public constant:ConstantProvider,public socialSharing:SocialSharing) {
         this.presentLoading();
         this.notification();
@@ -124,19 +128,46 @@ export class HomePage {
     } 
     
     
-    scan_tips()
-    {
-        // let contactModal = this.modalCtrl.create(AboutPage);
-        // contactModal.present();
-        // contactModal.onDidDismiss(resp=>{
-            // console.log(resp);
-            this.scan();
-        // })
-    }
+  
     
     
     qr_count:any=0;
     qr_limit:any=0;
+    scanCoupon() {
+        let alert = this.alertCtrl.create();
+        alert.setTitle('Coupon');
+    
+        alert.addInput({
+          type: 'radio',
+          label: 'Coupon Scan',
+          value: 'scan',
+          checked: true
+        });
+        alert.addInput({
+          type: 'radio',
+          label: 'Enter Coupon Code',
+          value: 'code',
+         
+        });
+    
+        alert.addButton('Cancel');
+        alert.addButton({
+          text: 'OK',
+          handler: data => {
+            this.testRadioOpen = false;
+            // this.testRadioResult = data;
+            this.value = data;
+            console.log("redio val =====>",this.value)
+            if(this.value == 'scan'){
+                this.scan();
+            }else if(this.value == 'code'){
+                this.navCtrl.push(CoupanCodePage)
+            }
+          
+          }
+        });
+        alert.present();
+      }
     scan()
     {
         if( this.karigar_detail.manual_permission==1)
@@ -271,7 +302,7 @@ export class HomePage {
     }
     goOnGiftListPage()
     {
-        this.navCtrl.push(GiftListPage,{'mode':'home'});
+        this.navCtrl.push(RedeemTypePage,{'mode':'home',"balence_point":this.total_balance_point});
     }
     
     goOnFurniturePage()

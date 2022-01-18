@@ -10,10 +10,9 @@
         <div class="modal-content in-modal">
             <form #f="ngForm">
                 <h1>{{'Grassim' | translate}} </h1>
-                <p class="highligt-error" *ngIf="karigar_detail.document_image == '' || karigar_detail.document_no == ''">* Your document details are missing !</p>
-                <p>{{'Are you sure to redeem your'| translate}} {{gift_detail.coupon_points}} {{'Points' |translate}}?</p>
+                <p>{{ 'Are you sure to redeem your' | translate }} {{redeemPoint}} {{'Points' | translate}}? </p>
                 <div class="number-content">
-                    <p>{{'Enter your 6 digit number that sent to' | translate}} <span class="blue-color lineh24">+91 {{karigar_detail.mobile_no}}</span>
+                    <p>{{'Enter your 6 digit number that sent to' | translate}} <span class="blue-color lineh24">+91 {{data.mobile_no}}</span>
                     </p>
                 </div>
                 <div class="input-section">
@@ -26,6 +25,15 @@
                     <div class="resend">
                         <a (click)="resendOtp()">{{'Resend' | translate}}</a>
                     </div>
+                    <ng-container *ngIf="redeemType == 'Cash'">
+                        <div class="input-adjust m0" *ngIf="data.document_image &&  data.bank_name && data.account_holder_name && data.account_no && data.ifsc_code">
+                            <input class="pl16 radius-none mb16" name="account_holder_name"  [(ngModel)]="data.account_holder_name" type="text" placeholder="{{'Account Holder Name' | translate}}"  required readonly>
+                            <input class="pl16 radius-none mb16" name="bank_name"  [(ngModel)]="data.bank_name" type="text" placeholder="{{'Bank Name' | translate}}"  required readonly>
+                            <input class="pl16 radius-none mb16" name="account_no" #account_no="ngModel" [(ngModel)]="data.account_no" type="number" placeholder="{{'Account Number' | translate}}"  required readonly>
+                            <input class="pl16 radius-none mb16" pattern="^[A-Z]{4}0[A-Z0-9]{6}$" name="ifsc_code" [(ngModel)]="data.ifsc_code" type="text" placeholder="{{ 'IFSC Code' | translate}}"  minlength="11" maxlength="11" readonly>
+                            <!-- <input class="pl16 radius-none" name="account_holder_name" #account_holder_name="ngModel" [(ngModel)]="data.account_holder_name" type="text" placeholder="{{ 'Account Holder Name' | translate}}" require readonly> -->
+                        </div>
+                    </ng-container>
                 </div>
                 
              
@@ -50,33 +58,40 @@
                         <ion-radio value="Google Pay"></ion-radio>
                     </ion-item>
                 </ion-list> --> 
-                <div class="check-bx">
-                    <ion-item>
-                        <ion-checkbox color="secondary" checked="true" name="check1" #check1="ngModel" [(ngModel)]="data.check1" (click)="myNumber()">
-                        </ion-checkbox>
-                    </ion-item>
-                    <p>{{'Same as Permanent Address' | translate}}</p>
-                </div>
-                
-                <div class="input-section">
-                    <div class="input-adjust m0">
-                        <textarea class="pl16 radius-none" type="text" name="shipping_address" placeholder="Enter Shipping Address" #shipping_address="ngModel" [(ngModel)]="data.shipping_address" required></textarea>
+                <ng-container *ngIf="redeemType == 'gift'">
+                    <div class="check-bx">
+                        <ion-item>
+                            <ion-checkbox color="secondary" checked="true" name="check1" #check1="ngModel" [(ngModel)]="data.check1" (click)="myNumber()">
+                            </ion-checkbox>
+                        </ion-item>
+                        <p>{{'Same as Permanent Address' | translate}}</p>
                     </div>
-                </div>
+                    
+                    <div class="input-section">
+                        <div class="input-adjust m0">
+                            <textarea class="pl16 radius-none" type="text" name="shipping_address" placeholder="Enter Shipping Address" #shipping_address="ngModel" [(ngModel)]="data.shipping_address" required></textarea>
+                        </div>
+                    </div>
+                </ng-container>
+                
+                
+               
                 <div class="document_req">
-                    <a *ngIf="!karigar_detail.document_image || !karigar_detail.document_image_back || !karigar_detail.document_no || !karigar_detail.account_no || !karigar_detail.bank_name || !karigar_detail.ifsc_code" (click)="goRegestrationsPage()">{{ 'Please Update Your Bank Detail and Document Information' | translate}} <span class="document_req" style="color:blue;text-decoration: underline;">{{ 'Update Profile' | translate}}</span>
+                    <a *ngIf="!data.document_image || !data.account_holder_name || !data.account_no || !data.bank_name || !data.ifsc_code" (click)="goRegestrationsPage()">{{ 'Please Update Your Bank Detail and Document Information' | translate}} <span class="document_req" style="color:blue;text-decoration: underline;">{{ 'Update Profile' | translate}}</span>
                         <!-- <span class="right_arrow"><img src="assets/icons/right-arrows.png"></span> -->
                     </a>
                 </div>
                 <div class="check-bx">
                     <ion-item>
-                        <ion-checkbox color="secondary" checked="true" name="check" #check="ngModel" [(ngModel)]="data.check" required></ion-checkbox>
+                        <!-- <ion-checkbox color="secondary" checked="true" name="check" #check="ngModel" [(ngModel)]="data.check" required></ion-checkbox> -->
+                        <ion-checkbox color="secondary" checked="true" name="check" #check="ngModel" [(ngModel)]="data.check" >
+                        </ion-checkbox>
                     </ion-item>
-                    <p>{{'I have read' | translate}} <a (click)="goOnCancelationPolicy()">{{'cancelation policy' | translate}}</a></p>
+                    <p>{{'I have read' | translate}} <a (click)="goOnCancelationPolicy()">{{'Cancellation Policy' | translate}}</a></p>
                 </div>
                 <div class="footer-btn">
                     <a class="outline-btn" (click)="dismiss()">{{'No' | translate}}</a>
-                    <button class="fill-btn" [disabled]="!data.check || !data.otp ||!otp_value || !karigar_detail.document_image || !karigar_detail.document_image_back || !karigar_detail.document_no || !karigar_detail.account_no || !karigar_detail.bank_name || !karigar_detail.ifsc_code" (click)="f.form.valid && submit()">{{'Yes' | translate}}</button>
+                    <button class="fill-btn" (click)="submit()">{{'Yes' | translate}}</button>
                 </div>
             </form>
         </div>
