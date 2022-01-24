@@ -25,7 +25,7 @@ export class ContactPage {
    
     console.log('map');
     let destination = 30.0988887 + ',' + 77.1937138;
-    let label = encodeURI('Hafizpur Road, Vil, Damla, Yamuna Nagar - 135001, Haryana India');
+    let label = encodeURI('Hafizpur Road, Vill, Damla, Yamuna Nagar - 135001, Haryana, India');
     window.open('geo:0,0?q=' + destination + '(' + label + ')', '_system');
   }
   ionViewDidLeave()

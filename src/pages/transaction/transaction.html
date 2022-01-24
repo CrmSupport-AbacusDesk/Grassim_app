@@ -21,21 +21,21 @@
 </div>
 <div class="transaction-list"  >
     <div class="his-listing" *ngFor="let list of transaction_detail; let i=index">
-        <button ion-item class="main-list" (click)=" goOnShippingPage(list.id,list.offer_gift_id) " >
+        <button ion-item class="main-list" (click)=" goOnShippingPage(list.id,list.offer_gift_id, list.redeem_type) " >
             <div class="tr-content">
                 <div class="inner">
                     <div class="tr-cicle">
                         <i class="material-icons">call_made</i>
                     </div>
                     <div class="tr-tags">
-                        <h2>{{'Request Send' | translate}}</h2>
+                        <h2>{{'Request Send' | translate}} ({{list.redeem_type | titlecase}})</h2>
                         <h1>{{list.gift_title | titlecase}}</h1>
                         <p> {{'Req Id' | translate}} : {{list.invoice_id }}</p>
                         <span *ngIf="list.gift_status=='Reject' && receive_status != ''">{{list.reject_reason | titlecase}}</span>
                     </div>
                 </div>			
                 <div class="tr-points"  >
-                    <h2>{{list.coupon_points}}</h2>
+                    <h2>{{list.gift_points}}</h2>
                     <p>{{'Points' | translate}}</p>
                     <span class="refund" *ngIf="list.gift_status=='Reject' && receive_status != ''">{{'Refunded' | translate}}</span>
                 </div>
