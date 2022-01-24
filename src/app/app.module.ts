@@ -81,6 +81,7 @@ import { ContractorListPageModule } from '../pages/contractor/contractor-list/co
 import { ContractorAddPageModule } from '../pages/contractor/contractor-add/contractor-add.module';
 import { ContractorDetailPageModule } from '../pages/contractor/contractor-detail/contractor-detail.module';
 import { RegistrationPageModule } from '../pages/login-section/registration/registration.module';
+import { RedeemTypePageModule } from '../pages/redeem-type/redeem-type.module';
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -105,6 +106,7 @@ export function createTranslateLoader(http: HttpClient) {
         CoupanCodePageModule,
         GiftDetailPageModule,
         GiftListPageModule,
+        RedeemTypePageModule,
         OffersPageModule,
         CancelpolicyModalPageModule,
         ViewProfilePageModule,

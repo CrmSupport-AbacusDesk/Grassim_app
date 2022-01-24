@@ -31,6 +31,7 @@ export class OfferListPage {
         this.get_user_lang();
         console.log('ionViewDidLoad OfferListPage');
         this.getofferList();
+        // this.getOfferbanner();
         this.presentLoading();
     }
     
@@ -76,6 +77,7 @@ export class OfferListPage {
             console.log(this.offer_list);
         });
     }
+ 
     presentLoading() 
     {
         this.translate.get("Please wait...")

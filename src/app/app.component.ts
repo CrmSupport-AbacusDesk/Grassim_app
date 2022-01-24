@@ -147,7 +147,7 @@ export class MyApp {
         platform.ready().then(() => {
             statusBar.overlaysWebView(false);
             splashScreen.hide();    
-            statusBar.backgroundColorByHexString('#FFFF00');   
+            statusBar.backgroundColorByHexString('#f5c000');   
             this.get_user_lang();
         });
         
@@ -324,7 +324,7 @@ export class MyApp {
                                 {text: this.cancl, },
                                 {text: this.upd_now,
                                     handler: () => {
-                                        window.open('https://play.google.com/store/apps/details?id=com.fluidhardware.app&hl=en','_system','location=yes');
+                                        window.open('https://play.google.com/store/apps/details?id=com.abacusdesk.grassim&hl=en','_system','location=yes');
                                     } 
                                 }
                             ]

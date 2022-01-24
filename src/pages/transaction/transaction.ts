@@ -66,9 +66,12 @@ export class TransactionPage {
         }
     }
     
-    goOnShippingPage(id,gift_id){
+    goOnShippingPage(id,gift_id,type){
         console.log('shipping');
-        this.navCtrl.push(ShippingDetailPage,{'id':id,'gift_id':gift_id});
+
+        if(type == 'gift'){
+            this.navCtrl.push(ShippingDetailPage,{'id':id,'gift_id':gift_id});
+        }
     }
     
     goOnChatingPage(){

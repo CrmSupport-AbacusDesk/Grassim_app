@@ -26,6 +26,7 @@ export class OffersPage {
     filter:any={};
     uploadUrl:any='';
     constructor(public navCtrl: NavController, public navParams: NavParams,public service:DbserviceProvider,public loadingCtrl:LoadingController ,private app : App,public modalCtrl: ModalController,public storage:Storage,public translate:TranslateService,public db:DbserviceProvider,public constant:ConstantProvider) {
+        
     }
     
     ionViewDidLoad() {
@@ -122,6 +123,40 @@ export class OffersPage {
             // this.offer_balance=parseInt(r['gift'][0].offer_balance ) + (referral_per_amt);
             this.offer_balance=this.balance_point + (referral_per_amt);
 
+            this.getofferDetailBanner(offer_id);
+            console.log(this.offer_balance);
+
+            // for gift active class
+            for (let i = 0; i < this.gift_list.length; i++) 
+            {
+                this.gift_list[i].coupon_points = parseInt( this.gift_list[i].coupon_points);
+                this.gift_list[i].offer_balance = this.offer_balance;
+                console.log(this.gift_list[i].offer_balance);
+                console.log(this.gift_list[i].coupon_points);
+
+
+            }
+            // end
+            
+        });
+    }
+    getofferDetailBanner(offer_id)
+    {
+        this.filter.limit=0;
+        console.log(offer_id);
+        this.service.post_rqst({'filter' : this.filter,'offer_id':offer_id,'karigar_id':this.service.karigar_id},'app_karigar/offer_detail_images')
+        .subscribe((r)=>
+        {
+            console.log(r);
+            this.loading.dismiss();
+            this.offer_detail=r['offer'];
+            this.gift_list=r['gift'];
+            var referral_per = r['referral_percentage'];
+            var referral_per_amt = ((r['karigar'].referal_point_balance * referral_per.one_time_percentage)/100);
+            this.balance_point=parseInt(r['karigar'].balance_point);
+            // this.offer_balance=parseInt(r['gift'][0].offer_balance ) + (referral_per_amt);
+            this.offer_balance=this.balance_point + (referral_per_amt);
+
 
             console.log(this.offer_balance);
 
@@ -130,8 +165,8 @@ export class OffersPage {
             {
                 this.gift_list[i].coupon_points = parseInt( this.gift_list[i].coupon_points);
                 this.gift_list[i].offer_balance = this.offer_balance;
-console.log(this.gift_list[i].offer_balance);
-console.log(this.gift_list[i].coupon_points);
+                console.log(this.gift_list[i].offer_balance);
+                console.log(this.gift_list[i].coupon_points);
 
 
             }

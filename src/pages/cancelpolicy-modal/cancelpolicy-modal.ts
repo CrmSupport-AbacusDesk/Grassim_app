@@ -7,6 +7,7 @@ import { TransactionPage } from '../transaction/transaction';
 import { HomePage } from '../home/home';
 import { TranslateService } from '@ngx-translate/core';
 import { RegistrationPage } from '../login-section/registration/registration';
+import { ProfilePage } from '../profile/profile';
 
 
 
@@ -25,9 +26,16 @@ export class CancelpolicyModalPage {
     gift_id:any='';
     gift_detail:any='';
     loading:Loading;
-    
+    redeemType:any={};
+    redeemPoint:any={};
     
     constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController,public service:DbserviceProvider,public alertCtrl:AlertController,public loadingCtrl:LoadingController, public translate:TranslateService) {
+        this.redeemType = this.navParams.get('redeem_type');
+        this.redeemPoint = this.navParams.get('redeem_point');
+        
+        
+        this.karigar_id = this.navParams.get('karigar_id');
+        this.gift_id = this.navParams.get('gift_id');
     }
     
     ionViewDidLoad() {
@@ -53,13 +61,14 @@ export class CancelpolicyModalPage {
     getOtpDetail()
     {
         console.log('otp');
-        this.service.post_rqst({'karigar_id':this.service.karigar_id,'gift_id':this.gift_id},'app_karigar/sendOtp')
+        this.service.post_rqst({'karigar_id':this.service.karigar_id,'gift_id':this.gift_id,"redeem_amount":this.redeemPoint},'app_karigar/sendOtp')
         .subscribe((r)=>
         {
             console.log(r);
             this.loading.dismiss();
             this.otp=r['otp'];
             console.log(this.otp);
+            this.data=r['karigar'];
             this.karigar_detail=r['karigar'];
             console.log('====================================');
             console.log(this.karigar_detail);
@@ -70,7 +79,7 @@ export class CancelpolicyModalPage {
     resendOtp()
     {
         
-        this.service.post_rqst({'karigar_id':this.service.karigar_id,'gift_id':this.gift_id},'app_karigar/sendOtp')
+        this.service.post_rqst({'karigar_id':this.service.karigar_id,'gift_id':this.gift_id,"redeem_amount":this.redeemPoint},'app_karigar/sendOtp')
         .subscribe((r)=>
         {
             
@@ -90,11 +99,34 @@ export class CancelpolicyModalPage {
     
     submit()
     {
+        if(!this.otp_value){
+            this.showAlert("OTP required");
+            return
+        }
+        else if(this.redeemType == 'gift'){
+            
+            if(!this.data.shipping_address){
+                this.showAlert("Shipping address required");
+                return
+            }
+        }
+        else if(this.redeemType == 'Cash'){
+            if(!this.data.account_holder_name  || !this.data.bank_name || !this.data.account_no || !this.data.ifsc_code){
+                this.showAlert("Bank details are missing");
+                return;
+            }
+        }
+        if(!this.data.check){
+            this.showAlert("Read cancelation policy");
+            return
+        }
         this.presentLoading();
         console.log('data');
         console.log(this.data);
         this.data.karigar_id = this.service.karigar_id,
         this.data.gift_id = this.gift_id,
+        this.data.redeem_type = this.redeemType
+        this.data.redeem_amount=  this.redeemPoint
         this.data.offer_id = this.gift_detail.offer_id,
         console.log('data');
         this.service.post_rqst( {'data':this.data},'app_karigar/redeemRequest')
@@ -174,6 +206,6 @@ export class CancelpolicyModalPage {
         
     }
     goRegestrationsPage=()=>{
-        this.navCtrl.push(RegistrationPage,{'data':this.karigar_detail,"mode":'redeem_page'})
+        this.navCtrl.push(ProfilePage,{'data':this.karigar_detail,"mode":'redeem_page'})
     }
 }
