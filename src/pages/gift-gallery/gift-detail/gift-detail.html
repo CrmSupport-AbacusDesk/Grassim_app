@@ -17,13 +17,13 @@
 
             </div>
             <div class="phone-img">
-                <img src="{{gift_detail.image}}">
+                <img src="{{uploadUrl + gift_detail.gift_image}}">
             </div>
         </div>
         <div class="detail-list">
             <div class="detail">
                 <div class="img-section">
-                    <img src="{{gift_detail.offer_banner}}">
+                    <img src="{{uploadUrl + gift_detail.banner}}">
                 </div>
                 <div class="info" (click)="goOnOfferDetailPage(gift_detail.offer_id)">
                     <h1>{{lang !='en' ? gift_detail.hin_title : gift_detail.title | titlecase}}</h1>
