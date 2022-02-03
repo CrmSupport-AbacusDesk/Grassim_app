@@ -11,6 +11,7 @@ import * as jwt_decode from "jwt-decode";
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { LanguagePage } from '../language/language';
 import { RegistrationPage } from '../login-section/registration/registration';
+import { ConstantProvider } from '../../providers/constant/constant';
 
 
 
@@ -29,7 +30,8 @@ export class ProfilePage {
     edit1:any='';
     lang:any='';
     tokenInfo:any={};
-    constructor(public navCtrl: NavController, public app: App, public navParams: NavParams,public service:DbserviceProvider,public loadingCtrl:LoadingController, public storage: Storage,public events: Events,public actionSheetController: ActionSheetController,private camera: Camera,public alertCtrl:AlertController,public modalCtrl: ModalController,public db:DbserviceProvider,public translate:TranslateService,public platform:Platform,private socialSharing: SocialSharing){
+    uploadUrl:any='';
+    constructor(public navCtrl: NavController, public app: App, public navParams: NavParams,public service:DbserviceProvider,public loadingCtrl:LoadingController, public storage: Storage,public events: Events,public actionSheetController: ActionSheetController,private camera: Camera,public alertCtrl:AlertController,public modalCtrl: ModalController,public db:DbserviceProvider,public translate:TranslateService,public platform:Platform,private socialSharing: SocialSharing, public constant:ConstantProvider){
         this.presentLoading();
         console.log(this.navParams);
         this.lang = this.navParams.get("lang");
@@ -39,7 +41,7 @@ export class ProfilePage {
         this.translate.setDefaultLang(this.lang);
         this.translate.use(this.lang);
         console.log(this.karigar_detail.edit_profile);
-        
+        this.uploadUrl = this.constant.upload_url;
     }
     
     // logout()
