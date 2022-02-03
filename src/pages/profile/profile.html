@@ -14,7 +14,9 @@
             <div class="pr-align">
                 <div class="pr-circle">
                     <img src="assets/imgs/man.svg" *ngIf="karigar_detail.profile ==''">
-                    <img [src]="karigar_detail.profile" *ngIf="karigar_detail.profile" (click)="viewProfiePic()">
+                    <!-- <img [src]="karigar_detail.profile" *ngIf="karigar_detail.profile" (click)="viewProfiePic()"> -->
+                    <img src="{{uploadUrl+karigar_detail.profile}}" *ngIf="karigar_detail.profile" (click)="viewProfiePic()">
+
                     <label> 
                         <i class="material-icons" (click)="openeditprofile()">camera_alt</i>
                     </label>
@@ -92,8 +94,13 @@
         </div> -->
     </div>
     <div class="adhar">
-        <img src="{{karigar_detail.document_image ? karigar_detail.document_image : 'assets/imgs/adhar.png'}}">
-        <img src="{{karigar_detail.document_image_back ? karigar_detail.document_image_back : 'assets/imgs/adhar.png'}}">
+
+        <img src="{{uploadUrl + karigar_detail.document_image}}">
+
+        <img src="{{uploadUrl + karigar_detail.document_image_back}}" *ngIf="karigar_detail.document_image_back != ''">
+
+        <!-- <img src="{{karigar_detail.document_image ? karigar_detail.document_image : 'assets/imgs/adhar.png'}}">
+        <img src="{{karigar_detail.document_image_back ? karigar_detail.document_image_back : 'assets/imgs/adhar.png'}}"> -->
         <p>{{karigar_detail.document_type=='Adharcard'? 'Adhar card' : (karigar_detail.document_type=='PanCard' ? 'Pan Card' : 'Voter Card') }}</p>
         <h1>
             <input class="dochidenumber" type="text" name="document_no " #document_no="ngModel" [(ngModel)]="karigar_detail.document_no" [readonly]="edit1 == '1'  ? false : true" required>
