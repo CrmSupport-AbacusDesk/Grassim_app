@@ -296,6 +296,14 @@ export class ProfilePage {
     {
         this.modalCtrl.create(ViewProfilePage, {"Image": this.karigar_detail.profile,"type":"base_64"}).present();
     }
+    viewDoc()
+    {
+        this.modalCtrl.create(ViewProfilePage, {"Image": this.karigar_detail.document_image,"type":"base_64"}).present();
+    }
+    viewDocBack()
+    {
+        this.modalCtrl.create(ViewProfilePage, {"Image": this.karigar_detail.document_image_back,"type":"base_64"}).present();
+    }
     showSuccess(text)
     {
         this.translate.get("Success")
