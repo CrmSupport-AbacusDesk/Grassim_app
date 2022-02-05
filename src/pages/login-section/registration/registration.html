@@ -33,7 +33,9 @@ r<ion-header>
                 <ion-item>
                     <div class="profile-circle" (click)="openeditprofile()">
                         <i class="material-icons" *ngIf="data.profile == ''">camera_alt</i>
-                        <img [src]="data.profile" *ngIf="data.profile" required>
+                        <!-- <img [src]="data.profile" *ngIf="data.profile" required> -->
+
+                        <img src="{{data.profile_edit_id ? uploadurl+data.profile : data.profile}}">
                     </div>
                 </ion-item>
                 
@@ -146,11 +148,14 @@ r<ion-header>
                         
                     </p>
                     
-                    <img *ngIf="data.document_image != ''" [src]="data.document_image" alt="" required>
+                    <!-- <img *ngIf="data.document_image != ''" [src]="data.document_image" alt="" required> -->
+                    <img src="{{data.doc_edit_id ? uploadurl+data.document_image : data.document_image}}" *ngIf="data.document_image != ''">
+
+
                 </div>
                 <div class="upload-document mt15" (click)="onUploadBackChange()" *ngIf="data.document_type == 'Adharcard'">
                     <p *ngIf="data.document_image_back==''"><i class="material-icons">add_circle</i><br>{{'Upload Aadhaarcard back side'}}</p>
-                    <img *ngIf="data.document_image_back != ''" [src]="data.document_image_back" alt="">
+                    <img src="{{data.doc_back_edit_id ? uploadurl+data.document_image_back : data.document_image_back}}" *ngIf="data.document_image_back != ''">
                 </div>
             </div>
             

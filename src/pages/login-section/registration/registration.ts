@@ -10,6 +10,7 @@ import { Content } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { HomePage } from '../../home/home';
 import { ProfilePage } from '../../profile/profile';
+import { ConstantProvider } from '../../../providers/constant/constant';
 
 
 @IonicPage()
@@ -35,11 +36,12 @@ export class RegistrationPage {
     today_date:any;
     whatsapp_mobile_no:any='';
     mode:string='';
+    uploadurl: any = "";
     // defaultSelectedRadio = "data.user_type=1";
     
     
-    constructor(public navCtrl: NavController, public toastCtrl: ToastController,public navParams: NavParams, public service:DbserviceProvider,public alertCtrl:AlertController ,public actionSheetController: ActionSheetController,private camera: Camera,private loadingCtrl:LoadingController,public modalCtrl: ModalController,private storage:Storage,public translate:TranslateService) {
-       
+    constructor(public navCtrl: NavController, public toastCtrl: ToastController,public navParams: NavParams, public service:DbserviceProvider,public alertCtrl:AlertController ,public actionSheetController: ActionSheetController,private camera: Camera,private loadingCtrl:LoadingController,public modalCtrl: ModalController,private storage:Storage,public translate:TranslateService, public constant:ConstantProvider) {
+        this.uploadurl = this.constant.upload_url;
         this.data.mobile_no = this.navParams.get('mobile_no');
         console.log(this.data.mobile_no);
         this.data.document_type='Adharcard';
@@ -57,7 +59,12 @@ export class RegistrationPage {
 
         if(navParams.data.data){
             this.data = navParams.data.data;
-            this.data.karigar_edit_id = this.data.id
+            this.data.karigar_edit_id = this.data.id;
+            this.data.profile_edit_id = this.data.id;
+            this.data.doc_edit_id = this.data.id;
+            this.data.doc_back_edit_id = this.data.id;
+
+
             // this.data.profile= this.data.profile;
             // this.data.document_image = this.data.document_image
             // this.data.document_image_back = this.data.document_image_back
@@ -356,6 +363,7 @@ export class RegistrationPage {
                     text: this.cancl,
                     role: 'cancel',
                     handler: () => {
+                        this.data.profile_edit_id = this.data.id;
                         console.log('Cancel clicked');
                     }
                 }
@@ -367,16 +375,17 @@ export class RegistrationPage {
     {
         console.log("i am in camera function");
         const options: CameraOptions = {
-            quality: 70,
+            quality: 75,
             destinationType: this.camera.DestinationType.DATA_URL,
-            targetWidth : 500,
-            targetHeight : 400,
+            targetWidth : 1050,
+            targetHeight : 1000,
             cameraDirection: 1,
             correctOrientation: true
         }
         
         console.log(options);
         this.camera.getPicture(options).then((imageData) => {
+            this.data.profile_edit_id = '';
             this.data.profile = 'data:image/jpeg;base64,' + imageData;
             console.log(this.data.profile);
         }, (err) => {
@@ -385,13 +394,14 @@ export class RegistrationPage {
     getImage() 
     {
         const options: CameraOptions = {
-            quality: 70,
+            quality: 75,
             destinationType: this.camera.DestinationType.DATA_URL,
             sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
             saveToPhotoAlbum:false
         }
         console.log(options);
         this.camera.getPicture(options).then((imageData) => {
+            this.data.profile_edit_id = '';
             this.data.profile = 'data:image/jpeg;base64,' + imageData;
             console.log(this.data.profile);
         }, (err) => {
@@ -425,6 +435,7 @@ export class RegistrationPage {
                 text: this.cancl,
                 role: 'cancel',
                 handler: () => {
+                    this.data.doc_edit_id = this.data.id;
                     console.log('Cancel clicked');
                 }
             }
@@ -435,24 +446,25 @@ export class RegistrationPage {
 takeDocPhoto()
 {
     const options: CameraOptions = {
-        quality: 70,
+        quality: 75,
         destinationType: this.camera.DestinationType.DATA_URL,
-        targetWidth : 500,
-        targetHeight : 400
+        targetWidth : 1050,
+        targetHeight : 1000 
     }
     
     console.log(options);
     this.camera.getPicture(options).then((imageData) => {
         this.flag=false;
+        this.data.doc_edit_id='',
         this.data.document_image = 'data:image/jpeg;base64,' + imageData;
-        console.log(this.data.document_image);
+        console.log(this.data.document_image, 'line number 450');
     }, (err) => {
     });
 }
 getDocImage()
 {
     const options: CameraOptions = {
-        quality: 70,
+        quality: 75,
         destinationType: this.camera.DestinationType.DATA_URL,
         sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
         saveToPhotoAlbum:false
@@ -460,6 +472,7 @@ getDocImage()
     console.log(options);
     this.camera.getPicture(options).then((imageData) => {
         this.flag=false;
+        this.data.doc_edit_id='';
         this.data.document_image = 'data:image/jpeg;base64,' + imageData;
         console.log(this.data.document_image);
     }, (err) => {
@@ -492,6 +505,7 @@ onUploadBackChange(evt: any) {
             text: this.cancl,
             role: 'cancel',
             handler: () => {
+                this.data.doc_back_edit_id = this.data.id;
             }
         }
     ]
@@ -501,15 +515,16 @@ actionsheet.present();
 backDocPhoto()
 {
     const options: CameraOptions = {
-        quality: 70,
+        quality: 75,
         destinationType: this.camera.DestinationType.DATA_URL,
-        targetWidth : 500,
-        targetHeight : 400
+        targetWidth : 1050,
+        targetHeight : 1000
     }
     
     console.log(options);
     this.camera.getPicture(options).then((imageData) => {
         this.flag=false;
+        this.data.doc_back_edit_id=''
         this.data.document_image_back = 'data:image/jpeg;base64,' + imageData;
         console.log(this.data.document_image_back);
     }, (err) => {
@@ -518,7 +533,7 @@ backDocPhoto()
 backDocImage()
 {
     const options: CameraOptions = {
-        quality: 70,
+        quality: 75,
         destinationType: this.camera.DestinationType.DATA_URL,
         sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
         saveToPhotoAlbum:false
@@ -526,6 +541,7 @@ backDocImage()
     console.log(options);
     this.camera.getPicture(options).then((imageData) => {
         this.flag=false;
+        this.data.doc_back_edit_id='';
         this.data.document_image_back = 'data:image/jpeg;base64,' + imageData;
         console.log(this.data.document_image_back);
     }, (err) => {
@@ -568,10 +584,10 @@ actionsheet.present();
 chequePhoto()
 {
     const options: CameraOptions = {
-        quality: 70,
+        quality: 75,
         destinationType: this.camera.DestinationType.DATA_URL,
-        targetWidth : 500,
-        targetHeight : 400
+        targetWidth : 1050,
+        targetHeight : 1000
     }
     
     console.log(options);
