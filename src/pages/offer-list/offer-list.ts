@@ -31,7 +31,7 @@ export class OfferListPage {
         this.get_user_lang();
         console.log('ionViewDidLoad OfferListPage');
         this.getofferList();
-        this.getOfferbanner();
+        // this.getOfferbanner();
         this.presentLoading();
     }
     
@@ -77,17 +77,7 @@ export class OfferListPage {
             console.log(this.offer_list);
         });
     }
-    getOfferbanner()
-    {
-        this.service.post_rqst({'karigar_id':this.service.karigar_id},'app_karigar/offer_banner')
-        .subscribe((r)=>
-        {
-            console.log(r);
-            this.loading.dismiss();
-            this.offer_list=r['offer'];
-            console.log(this.offer_list);
-        });
-    }
+ 
     presentLoading() 
     {
         this.translate.get("Please wait...")
