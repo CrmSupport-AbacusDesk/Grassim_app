@@ -26,7 +26,11 @@ export class GiftDetailPage {
     tokenInfo:any={};
     lang:any='';
     uploadUrl:any='';
-    constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController,public service:DbserviceProvider,public loadingCtrl:LoadingController,private app: App,public storage:Storage,public translate:TranslateService,public db:DbserviceProvider,public constant:ConstantProvider,public toastCtrl:ToastController) {}
+     
+
+    constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController,public service:DbserviceProvider,public loadingCtrl:LoadingController,private app: App,public storage:Storage,public translate:TranslateService,public db:DbserviceProvider,public constant:ConstantProvider,public toastCtrl:ToastController) {
+
+    }
     
     ionViewDidLoad() {
         this.uploadUrl = this.constant.upload_url

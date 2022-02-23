@@ -368,9 +368,9 @@ export class HomePage {
         // let image = "https://play-lh.googleusercontent.com/FEDtMP_dyMgM8rJtp4MFdp60g0fLuBYNbu3pBNsNH52knTsG1yDuNs56CFYu_X3XqYk=s180-rw";
 
         let image = "";
-        let app_url = "https://play.google.com/store/apps/details?id=com.abacusdesk.grassim";
+        let app_url = "https://play.google.com/store/apps/details?id=com.abacusdesk.kridha";
         
-        this.socialSharing.share("Hey there join me (" + this.karigar_detail.full_name + "-" + this.karigar_detail.mobile_no + ") on Grassim a Plywood app. Enter my code *" + this.karigar_detail.referral_code + "* to earn points back in your wallet!", "Karigar Reffral", image, app_url)
+        this.socialSharing.share("Hey there join me (" + this.karigar_detail.full_name + "-" + this.karigar_detail.mobile_no + ") on Kridha Laminates a Plywood app. Enter my code *" + this.karigar_detail.referral_code + "* to earn points back in your wallet!", "Karigar Reffral", image, app_url)
         .then(resp=>{
             console.log(resp);
             

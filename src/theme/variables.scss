@@ -21,7 +21,7 @@ $app-direction: ltr;
 // to match your app's branding. Ionic uses a Sass map of
 // colors so you can add, rename and remove colors as needed.
 // The "primary" color is the only required color in the map.
-$colors: ( primary: #f5c000, secondary: #222222, danger: #f53d3d, light: #f4f4f4, dark: #222, white: #ffffff, black:#000000 );
+$colors: ( primary: #6b3716, secondary: #222222, danger: #f53d3d, light: #f4f4f4, dark: #222, white: #ffffff, black:#000000 );
 * {
     margin: 0;
     padding: 0;
@@ -29,8 +29,8 @@ $colors: ( primary: #f5c000, secondary: #222222, danger: #f53d3d, light: #f4f4f4
 }
 
 
-$primay:#f5c000;
-$primary:#f5c000;
+$primay:#6b3716;
+$primary:#6b3716;
 $secondary: #222222;
 $danger: #f53d3d;
 $black:#000000;
@@ -603,7 +603,7 @@ ion-alert {
         }
     }
 }
-ion-header ion-navbar button span ion-icon.back-button-icon{color: $black !important;}
+
 ion-header {
     ion-navbar {
         &.toolbar {
@@ -635,7 +635,7 @@ ion-header {
             align-items: center;
             ion-title {
                 .toolbar-title {
-                    // color: $white !important;
+                    color: $white !important;
                     font-size: 14px;
                     letter-spacing: $letter-space;
                     font-weight: 600 !important;
@@ -857,7 +857,7 @@ button {
         button {
             background: transparent;
             font-size: 14px;
-            color: #000;
+            color: #ffff;
             letter-spacing: 1px;
             font-weight: 500;
             width: 100%;
@@ -1070,7 +1070,7 @@ button {
                 width: 28px;
             }
             i {
-                color: $black;
+                color: $white;
                 font-size: 20px;
             }
             &.button-md:hover:not(.disable-hover) {
@@ -4373,7 +4373,7 @@ ion-popover {
             }
             p {
                 text-align: center;
-                color: $black;
+                color: $white;
                 font-size: 14px;
                 padding-top: 18px !important;
                 font-weight: 600;
@@ -5009,7 +5009,7 @@ pinch-zoom.pinch-big_zoom div {
         min-width: 95px;
 
         &.active{
-            border-color: #f5c000 !important;
+            border-color: #6b3716 !important;
             opacity: 1 !important;
             background: #fbfff5;
         }
@@ -5134,7 +5134,7 @@ ion-list{
     position: relative;
     
     p{
-        color: #000000;
+        color: #ffff;
         font-size: 14px;
     }
     

@@ -8,9 +8,9 @@ export class ConstantProvider {
     console.log('Hello ConstantProvider Provider');
   }
 
-  public rootUrl: string = 'https://apps.abacusdesk.com/grasim_ply/dd_api/';  
+  public rootUrl: string = 'https://apps.abacusdesk.com/kridha_loyalty/dd_api/';  
   public server_url: string = this.rootUrl + 'index.php/app/';
-  public upload_url: string ='https://apps.abacusdesk.com/grasim_ply/dd_api/app/uploads/';
+  public upload_url: string ='https://apps.abacusdesk.com/kridha_loyalty/dd_api/app/uploads/';
 
   public backButton = 0;
 

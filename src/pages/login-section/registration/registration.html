@@ -11,7 +11,7 @@ r<ion-header>
         <form #f="ngForm" (ngSubmit)="f.form.valid ? submit() : scrollUp()">
             
             <ion-list>
-                <ion-list-header class="form-heading mt0" *ngIf="!data.id">
+                <!-- <ion-list-header class="form-heading mt0" *ngIf="!data.id">
                     {{'Choose Type' | translate}}
                 </ion-list-header>
                 <ion-list radio-group name="user_type" [(ngModel)]="data.user_type" #user_type="ngModel" required *ngIf="!data.id">
@@ -24,7 +24,7 @@ r<ion-header>
                         <ion-label>{{'Architect' | translate}}</ion-label>
                         <ion-radio value="2"></ion-radio>
                     </ion-item>
-                </ion-list>
+                </ion-list> -->
                 <ion-list-header class="form-heading">
                     {{'Basic Information' | translate}}
                 </ion-list-header>
