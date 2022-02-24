@@ -382,7 +382,7 @@ export class MyApp {
 
         const options: PushOptions = {
             android: {
-                senderID: '164818354927',
+                senderID: '158421422619',
                 icon: './assets/imgs/logo_small',
                 forceShow:true
             },
@@ -401,21 +401,28 @@ export class MyApp {
             console.log("error1",notification.additionalData.type );
             console.log("error1",notification.additionalData );
               this.notifications = notification.additionalData.type
-            if(notification.additionalData.type == "message"){
-                this.nav.push(FeedbackPage);
-            }else if(notification.additionalData.type == 'offer'){
+            // if(notification.additionalData.type == "message"){
+            //     this.nav.push(FeedbackPage);
+            // }
+            if(notification.additionalData.type == 'offer'){
                 this.nav.push(OfferListPage);
-            }else if(notification.additionalData.type == 'redeem'){
+            }
+            else if(notification.additionalData.type == 'redeem'){
                 this.nav.push(TransactionPage);
-            }else if(notification.additionalData.type == 'gift'){
+            }
+            else if(notification.additionalData.type == 'gift'){
                 this.nav.push(GiftListPage);
-            }else if(notification.additionalData.type == 'catalogue'){
-                this.nav.push(ProductsPage);
-            }else if(notification.additionalData.type == 'product'){
-                this.nav.push(ProductsPage);
-            }else if(notification.additionalData.type == 'video'){
-                this.nav.push(VideoPage);
-            }else if(notification.additionalData.type == 'profile'){
+            }
+            // else if(notification.additionalData.type == 'catalogue'){
+            //     this.nav.push(ProductsPage);
+            // }
+            // else if(notification.additionalData.type == 'product'){
+            //     this.nav.push(ProductsPage);
+            // }
+            // else if(notification.additionalData.type == 'video'){
+            //     this.nav.push(VideoPage);
+            // }
+            else if(notification.additionalData.type == 'profile'){
                 this.nav.push(ProfilePage);
             }
           });

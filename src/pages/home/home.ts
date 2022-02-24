@@ -41,6 +41,7 @@ import { RedeemTypePage } from '../redeem-type/redeem-type';
     templateUrl: 'home.html'
 })
 export class HomePage {
+    
     offer_list:any=[];
     loading:Loading;
     karigar_detail:any={};
@@ -59,6 +60,10 @@ export class HomePage {
     testRadioOpen:any='';
     testRadioResult:any='';
     value:string='';
+    notifications:any='';
+    user_type:any='';
+    idlogin:any='';
+    registration:any='';
     constructor(public navCtrl: NavController,public service:DbserviceProvider,public loadingCtrl:LoadingController,public storage:Storage, private barcodeScanner: BarcodeScanner,public alertCtrl:AlertController,public modalCtrl: ModalController,private push: Push,public translate:TranslateService,public constant:ConstantProvider,public socialSharing:SocialSharing) {
         this.presentLoading();
         this.notification();
@@ -405,7 +410,7 @@ export class HomePage {
         
         this.push.hasPermission()
         .then((res: any) => {
-            
+            console.log("line 413","called this functions");
             if (res.isEnabled) {
                 console.log('We have permission to send push notifications');
             } else {
@@ -417,6 +422,7 @@ export class HomePage {
         const options: PushOptions = {
             android: {
                 senderID:'893824522432',
+                forceShow:true
             },
             ios: {
                 alert: 'true',
@@ -480,5 +486,133 @@ export class HomePage {
         catch(Error){
             return null;
         }
-    }    
+    } 
+    initPushNotification()
+    {
+        // this.push.init({
+        //     android: {
+        //         forceShow: "true",
+        //         titleKey: "hello",
+        //         sound: "true",
+        //         vibrate:"true"
+        //     }
+        // });
+
+        this.push.hasPermission().then((res: any) => {
+            if (res.isEnabled)
+            {
+                console.log('We have permission to send push notifications');
+            }
+            else
+            {
+                console.log('We don\'t have permission to send push notifications');
+            }
+        });
+
+        const options: PushOptions = {
+            android: {
+                senderID: '164818354927',
+                icon: './assets/imgs/logo_small',
+                forceShow:true
+            },
+            ios: {
+                alert: 'true',
+                badge: true,
+                sound: 'false'
+            },
+            windows: {}
+        };
+
+        const pushObject: PushObject = this.push.init(options);
+
+        pushObject.on('notification').subscribe((notification: any) => {
+            console.log('Received a notification', notification)
+            console.log("error1",notification.additionalData.type );
+            console.log("error1",notification.additionalData );
+              this.notifications = notification.additionalData.type
+            // if(notification.additionalData.type == "message"){
+            //     this.navCtrl.push(FeedbackPage);
+            // }
+            if(notification.additionalData.type == 'offer'){
+                this.navCtrl.push(OfferListPage);
+            }else if(notification.additionalData.type == 'redeem'){
+                this.navCtrl.push(TransactionPage);
+            }else if(notification.additionalData.type == 'gift'){
+                this.navCtrl.push(GiftListPage);
+            }
+            // else if(notification.additionalData.type == 'catalogue'){
+            //     this.navCtrl.push(ProductsPage);
+            // }
+            // else if(notification.additionalData.type == 'product'){
+            //     this.navCtrl.push(ProductsPage);
+            // }else if(notification.additionalData.type == 'video'){
+            //     this.navCtrl.push(VideoPage);
+            // }
+            else if(notification.additionalData.type == 'profile'){
+                this.navCtrl.push(ProfilePage);
+            }
+          });
+
+
+        pushObject.on('registration')
+        .subscribe((registration) =>{
+
+
+            console.log('Device registered line 557', registration);
+            console.log('Device Token 558', registration.registrationId);
+
+            this.storage.set('fcmId', registration);
+            console.log( this.tokenInfo);
+            console.log(this.storage);
+            this.storage.get('user_type').then((user_type) => {
+                this.user_type = user_type;
+                console.log(this.user_type);
+                console.log(user_type);
+            });
+            this.storage.get('userId').then((userId) => {
+                this.idlogin = userId;
+                console.log(this.idlogin);
+                console.log(userId);
+            });
+            this.registration=registration.registrationId;
+            this.registrationid(registration.registrationId);
+            console.log("line 575==",registration.registrationId)
+        });
+
+        pushObject.on('error')
+        .subscribe((error) =>
+        console.error('Error with Push plugin', error));
+    }
+    registrationid(registrationId){
+        console.log(" enter registration line 582",registrationId);
+        console.log(registrationId);
+        
+
+
+        this.storage.get('user_type').then((user_type) => {
+            this.user_type = user_type;
+            console.log(this.user_type);
+            console.log(user_type);
+            console.log("user_type");
+
+        });
+        this.storage.get('userId').then((userId) => {
+            this.idlogin = userId;
+            console.log(this.idlogin,  this.idlogin);
+            console.log("userId");
+            console.log(userId);
+        });
+
+        setTimeout(() =>{
+            this.service.post_rqst({'registration_id':registrationId,'karigar_id':this.idlogin},'app_karigar/add_registration_id')
+            .subscribe((r)=>
+            {
+                console.log("success ine 605",registrationId);
+                console.log(r);
+
+            });
+        }, 5000);
+
+
+    }   
 }
