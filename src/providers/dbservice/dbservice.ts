@@ -17,6 +17,7 @@ export class DbserviceProvider {
   filters:any={};
 
   protected token_data : any;
+  upload_url3: string;
   constructor(public http: HttpClient, private constant:ConstantProvider,public http1:HttpClient, public storage: Storage) 
   {
     console.log('Hello DbserviceProvider Provider');

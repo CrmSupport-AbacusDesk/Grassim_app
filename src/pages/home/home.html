@@ -120,11 +120,17 @@
                 </div>
                 <p>{{'Change Language' | translate}}</p>
             </li>
-            <li (click)="goOnProductsPage()" >
+            <!-- <li (click)="goOnProductsPage()" >
                 <div class="img-view">
                     <img src="assets/imgs/home-icon/product.svg">
                 </div>
                 <p>{{'Digital catalogues' | translate}}</p>
+            </li> -->
+            <li (click)="goOnDigitalcatalogPage()" >
+                <div class="img-view">
+                    <img src="assets/imgs/home-icon/product.svg">
+                </div>
+                <p>{{'Pdf catalogues' | translate}}</p>
             </li>
             <li (click)="goOnArrivalProductsPage()" *ngIf="karigar_detail.status =='Verified'">
                 <div class="img-view">

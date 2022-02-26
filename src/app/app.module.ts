@@ -1,3 +1,4 @@
+import { DigitalcatalogPageModule } from './../pages/digitalcatalog/digitalcatalog.module';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
@@ -155,6 +156,7 @@ export function createTranslateLoader(http: HttpClient) {
         ContractorAddPageModule,
         RegistrationPageModule,
         ContractorDetailPageModule,
+        DigitalcatalogPageModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,

@@ -1,3 +1,4 @@
+import { DigitalcatalogPage } from './../digitalcatalog/digitalcatalog';
 import { Component } from '@angular/core';
 import { NavController, Loading, LoadingController, AlertController, ModalController } from 'ionic-angular';
 import { ScanPage } from '../scane-pages/scan/scan';
@@ -353,6 +354,10 @@ export class HomePage {
     goOnAdvanceTextPage()
     {
         this.navCtrl.push(AdvanceTextPage);
+    }
+    goOnDigitalcatalogPage()
+    {
+        this.navCtrl.push(DigitalcatalogPage);
     }
     gotoNotification()
     {
