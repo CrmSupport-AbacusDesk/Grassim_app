@@ -524,7 +524,6 @@ export class HomePage {
         };
 
         const pushObject: PushObject = this.push.init(options);
-
         pushObject.on('notification').subscribe((notification: any) => {
             console.log('Received a notification', notification)
             console.log("error1",notification.additionalData.type );
@@ -545,7 +544,8 @@ export class HomePage {
             // }
             // else if(notification.additionalData.type == 'product'){
             //     this.navCtrl.push(ProductsPage);
-            // }else if(notification.additionalData.type == 'video'){
+            // }
+            // else if(notification.additionalData.type == 'video'){
             //     this.navCtrl.push(VideoPage);
             // }
             else if(notification.additionalData.type == 'profile'){
@@ -584,7 +584,7 @@ export class HomePage {
         console.error('Error with Push plugin', error));
     }
     registrationid(registrationId){
-        console.log(" enter registration line 582",registrationId);
+        console.log("enter registration line 582",registrationId);
         console.log(registrationId);
         
 
