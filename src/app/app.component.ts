@@ -22,6 +22,7 @@ import { GiftListPage } from '../pages/gift-gallery/gift-list/gift-list';
 import { ProductsPage } from '../pages/products/products';
 import { VideoPage } from '../pages/video/video';
 import { ProfilePage } from '../pages/profile/profile';
+import { NotificationPage } from '../pages/notification/notification';
 
 // import { Router } from "@angular/router";
 
@@ -44,18 +45,18 @@ export class MyApp {
     goofferPage:any;
     str:any;
     notifications:any
-
+    
     constructor( public platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, public modalCtrl: ModalController,public storage:Storage,public events:Events,public constant:ConstantProvider, private app: App,public toastCtrl:ToastController,public service:DbserviceProvider,public alertCtrl:AlertController,public app_version:AppVersion,public translate:TranslateService,public push:Push,) 
     {
         this.translate.setDefaultLang(this.lang);
         this.translate.use(this.lang);  
         this.idlogin = this.service.karigar_id
-
+        
         console.log('line 41');
         console.log(service);
         console.log('line 43',service.karigar_id);
-    
-
+        
+        
         // uncomment for logout
         // this.storage.set('token','');
         
@@ -94,7 +95,7 @@ export class MyApp {
                                 
                                 this.initPushNotification();
                             }, 2000);
-
+                            
                             // this.rootPage=TabsPage;
                         } 
                         else  if( this.service.karigar_info.status != 'Verified' && (this.service.karigar_info.status != 'Verified' && r['karigar'].user_type!=3))
@@ -137,7 +138,7 @@ export class MyApp {
                             
                             this.initPushNotification();
                         }, 2000);
-
+                        
                     }
                 });
             }
@@ -215,7 +216,7 @@ export class MyApp {
                 //     }
                 //   ]
                 // })
-            
+                
                 // alert.present();
                 nav.pop();
             }
@@ -226,26 +227,26 @@ export class MyApp {
             else if (nav.canGoBack() == false) 
             {
                 console.log('ok');
-                 let alert = this.alertCtrl.create({
-                  title: 'App termination',
-                  message: 'Are you sure you want Exit?',
-                  buttons: [
-                    {
-                      text: 'Stay',
-                      handler: () => {
-                        console.log('Cancel clicked');
-                        // this.d.('Action Cancelled!')
-                      }
-                    },
-                    {
-                      text: 'Exit',
-                      handler: () => {
-                        this.platform.exitApp();
-                      }
-                    }
-                  ]
+                let alert = this.alertCtrl.create({
+                    title: 'App termination',
+                    message: 'Are you sure you want Exit?',
+                    buttons: [
+                        {
+                            text: 'Stay',
+                            handler: () => {
+                                console.log('Cancel clicked');
+                                // this.d.('Action Cancelled!')
+                            }
+                        },
+                        {
+                            text: 'Exit',
+                            handler: () => {
+                                this.platform.exitApp();
+                            }
+                        }
+                    ]
                 })
-            
+                
                 alert.present();
                 // nav.pop();
             } 
@@ -338,21 +339,21 @@ export class MyApp {
     
     get_user_lang()
     {
-
+        
         this.check_version();
         // this.storage.get("token")
         // .then(resp=>{
         //     console.log(resp);
-            
+        
         //     this.tokenInfo = this.getDecodedAccessToken(resp );
         //     console.log(this.tokenInfo);
-            
+        
         //     this.service.post_rqst({"login_id":this.tokenInfo.sub},"app_karigar/get_user_lang")
         //     .subscribe(resp=>{
         //         console.log(resp);
         //         this.lang = resp['language'];
         //         this.translate.use(this.lang);                                          
-                
+        
         //         // commented
         //         this.check_version();
         //     })
@@ -368,7 +369,7 @@ export class MyApp {
         //         vibrate:"true"
         //     }
         // });
-
+        
         this.push.hasPermission().then((res: any) => {
             if (res.isEnabled)
             {
@@ -379,7 +380,7 @@ export class MyApp {
                 console.log('We don\'t have permission to send push notifications');
             }
         });
-
+        
         const options: PushOptions = {
             android: {
                 senderID: '158421422619',
@@ -393,17 +394,15 @@ export class MyApp {
             },
             windows: {}
         };
-
+        
         const pushObject: PushObject = this.push.init(options);
-
+        
         pushObject.on('notification').subscribe((notification: any) => {
             console.log('Received a notification', notification)
-            console.log("error1",notification.additionalData.type );
-            console.log("error1",notification.additionalData );
-              this.notifications = notification.additionalData.type
-            // if(notification.additionalData.type == "message"){
-            //     this.nav.push(FeedbackPage);
-            // }
+            console.log("additionalData Type App component 402 line",notification.additionalData.type );
+            console.log("additionalData App component 403 line",notification.additionalData );
+            this.notifications = notification.additionalData.type
+            
             if(notification.additionalData.type == 'offer'){
                 this.nav.push(OfferListPage);
             }
@@ -413,26 +412,20 @@ export class MyApp {
             else if(notification.additionalData.type == 'gift'){
                 this.nav.push(GiftListPage);
             }
-            // else if(notification.additionalData.type == 'catalogue'){
-            //     this.nav.push(ProductsPage);
-            // }
-            // else if(notification.additionalData.type == 'product'){
-            //     this.nav.push(ProductsPage);
-            // }
-            // else if(notification.additionalData.type == 'video'){
-            //     this.nav.push(VideoPage);
-            // }
             else if(notification.additionalData.type == 'profile'){
                 this.nav.push(ProfilePage);
             }
-          });
-
-
+            else if(notification.additionalData.type == 'notification'){
+                this.nav.push(NotificationPage);
+            }
+        });
+        
+        
         pushObject.on('registration')
         .subscribe((registration) =>{
             console.log('Device registered', registration);
             console.log('Device Token', registration.registrationId);
-
+            
             this.storage.set('fcmId', registration);
             console.log( this.tokenInfo);
             console.log(this.storage);
@@ -449,7 +442,7 @@ export class MyApp {
             this.registration=registration.registrationId;
             this.registrationid(registration.registrationId);
         });
-
+        
         pushObject.on('error')
         .subscribe((error) =>
         console.error('Error with Push plugin', error));
@@ -458,14 +451,14 @@ export class MyApp {
         console.log(" enter registration");
         console.log(registrationId);
         
-
-
+        
+        
         this.storage.get('user_type').then((user_type) => {
             this.user_type = user_type;
             console.log(this.user_type);
             console.log(user_type);
             console.log("user_type");
-
+            
         });
         this.storage.get('userId').then((userId) => {
             this.idlogin = userId;
@@ -473,17 +466,17 @@ export class MyApp {
             console.log("userId");
             console.log(userId);
         });
-
+        
         setTimeout(() =>{
             this.service.post_rqst({'registration_id':registrationId,'karigar_id':this.idlogin},'app_karigar/add_registration_id')
             .subscribe((r)=>
             {
                 console.log("success");
                 console.log(r);
-
+                
             });
         }, 5000);
-
-
+        
+        
     }
 }

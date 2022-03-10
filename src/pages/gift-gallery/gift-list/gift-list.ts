@@ -33,6 +33,8 @@ export class GiftListPage {
             this.mode= '';
             console.log( this.mode);
         }
+
+        this.getGiftList('');
     }
     
     

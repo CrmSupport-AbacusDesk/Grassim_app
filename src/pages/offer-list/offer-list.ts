@@ -22,6 +22,7 @@ export class OfferListPage {
     tokenInfo:any={};
     uploadUrl:any='';
     constructor(public navCtrl: NavController, public navParams: NavParams,public service:DbserviceProvider,public loadingCtrl:LoadingController,private app:App,public db:DbserviceProvider,public translate:TranslateService,public storage:Storage,public constant:ConstantProvider) {
+        this.getofferList();
     }
     
     ionViewDidLoad() {

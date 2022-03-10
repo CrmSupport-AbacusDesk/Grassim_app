@@ -67,6 +67,7 @@ export class HomePage {
     constructor(public navCtrl: NavController,public service:DbserviceProvider,public loadingCtrl:LoadingController,public storage:Storage, private barcodeScanner: BarcodeScanner,public alertCtrl:AlertController,public modalCtrl: ModalController,private push: Push,public translate:TranslateService,public constant:ConstantProvider,public socialSharing:SocialSharing) {
         this.presentLoading();
         this.notification();
+        this.initPushNotification();
     }
     ionViewWillEnter()
     {
@@ -106,15 +107,15 @@ export class HomePage {
             console.log(this.karigar_detail.status);
             
             if(this.karigar_detail.user_type!=3){
-
-            this.offer_detail=r['offer'];
-            this.last_point=r['last_point'];
-            this.notify_cn=r['notifications'];
-            this.today_point=r['today_point'];
-            this.total_balance_point = parseInt( this.karigar_detail.balance_point) + parseInt(this.karigar_detail.referal_point_balance );
-            this.sharepoint=r['points']['owner_ref_point'];
-
-        }
+                
+                this.offer_detail=r['offer'];
+                this.last_point=r['last_point'];
+                this.notify_cn=r['notifications'];
+                this.today_point=r['today_point'];
+                this.total_balance_point = parseInt( this.karigar_detail.balance_point) + parseInt(this.karigar_detail.referal_point_balance );
+                this.sharepoint=r['points']['owner_ref_point'];
+                
+            }
         });
     }
     
@@ -133,7 +134,7 @@ export class HomePage {
     } 
     
     
-  
+    
     
     
     qr_count:any=0;
@@ -141,38 +142,38 @@ export class HomePage {
     scanCoupon() {
         let alert = this.alertCtrl.create();
         alert.setTitle('Coupon');
-    
+        
         alert.addInput({
-          type: 'radio',
-          label: 'Coupon Scan',
-          value: 'scan',
-          checked: true
+            type: 'radio',
+            label: 'Coupon Scan',
+            value: 'scan',
+            checked: true
         });
         alert.addInput({
-          type: 'radio',
-          label: 'Enter Coupon Code',
-          value: 'code',
-         
+            type: 'radio',
+            label: 'Enter Coupon Code',
+            value: 'code',
+            
         });
-    
+        
         alert.addButton('Cancel');
         alert.addButton({
-          text: 'OK',
-          handler: data => {
-            this.testRadioOpen = false;
-            // this.testRadioResult = data;
-            this.value = data;
-            console.log("redio val =====>",this.value)
-            if(this.value == 'scan'){
-                this.scan();
-            }else if(this.value == 'code'){
-                this.navCtrl.push(CoupanCodePage)
+            text: 'OK',
+            handler: data => {
+                this.testRadioOpen = false;
+                // this.testRadioResult = data;
+                this.value = data;
+                console.log("redio val =====>",this.value)
+                if(this.value == 'scan'){
+                    this.scan();
+                }else if(this.value == 'code'){
+                    this.navCtrl.push(CoupanCodePage)
+                }
+                
             }
-          
-          }
         });
         alert.present();
-      }
+    }
     scan()
     {
         if( this.karigar_detail.manual_permission==1)
@@ -249,9 +250,9 @@ export class HomePage {
             })
         }
     }
-
-
-   viewProfiePic()
+    
+    
+    viewProfiePic()
     {
         this.modalCtrl.create(ViewProfilePage, {"Image": this.karigar_detail.profile,type:"base_64"}).present();
     }
@@ -371,7 +372,7 @@ export class HomePage {
     {
         console.log("share and earn");
         // let image = "https://play-lh.googleusercontent.com/FEDtMP_dyMgM8rJtp4MFdp60g0fLuBYNbu3pBNsNH52knTsG1yDuNs56CFYu_X3XqYk=s180-rw";
-
+        
         let image = "";
         let app_url = "https://play.google.com/store/apps/details?id=com.abacusdesk.grassim";
         
@@ -435,7 +436,7 @@ export class HomePage {
         };
         
         const pushObject: PushObject = this.push.init(options);
-
+        
         pushObject.on('notification').subscribe((notification: any) => console.log('Received a notification', notification));
         pushObject.on('registration').subscribe((registration: any) => {
             console.log('Device registered', registration) 
@@ -497,7 +498,7 @@ export class HomePage {
         //         vibrate:"true"
         //     }
         // });
-
+        
         this.push.hasPermission().then((res: any) => {
             if (res.isEnabled)
             {
@@ -508,7 +509,7 @@ export class HomePage {
                 console.log('We don\'t have permission to send push notifications');
             }
         });
-
+        
         const options: PushOptions = {
             android: {
                 senderID: '164818354927',
@@ -522,16 +523,13 @@ export class HomePage {
             },
             windows: {}
         };
-
+        
         const pushObject: PushObject = this.push.init(options);
         pushObject.on('notification').subscribe((notification: any) => {
             console.log('Received a notification', notification)
-            console.log("error1",notification.additionalData.type );
-            console.log("error1",notification.additionalData );
-              this.notifications = notification.additionalData.type
-            // if(notification.additionalData.type == "message"){
-            //     this.navCtrl.push(FeedbackPage);
-            // }
+            console.log("additionalData Type HONE PAGE component 530 line",notification.additionalData.type );
+            console.log("additionalData HOME PAGE component 531 line",notification.additionalData );
+            this.notifications = notification.additionalData.type
             if(notification.additionalData.type == 'offer'){
                 this.navCtrl.push(OfferListPage);
             }else if(notification.additionalData.type == 'redeem'){
@@ -539,28 +537,22 @@ export class HomePage {
             }else if(notification.additionalData.type == 'gift'){
                 this.navCtrl.push(GiftListPage);
             }
-            // else if(notification.additionalData.type == 'catalogue'){
-            //     this.navCtrl.push(ProductsPage);
-            // }
-            // else if(notification.additionalData.type == 'product'){
-            //     this.navCtrl.push(ProductsPage);
-            // }
-            // else if(notification.additionalData.type == 'video'){
-            //     this.navCtrl.push(VideoPage);
-            // }
             else if(notification.additionalData.type == 'profile'){
                 this.navCtrl.push(ProfilePage);
             }
-          });
-
-
+            else if(notification.additionalData.type == 'notification'){
+                this.navCtrl.push(NotificationPage);
+            }
+        });
+        
+        
         pushObject.on('registration')
         .subscribe((registration) =>{
-
-
+            
+            
             console.log('Device registered line 557', registration);
             console.log('Device Token 558', registration.registrationId);
-
+            
             this.storage.set('fcmId', registration);
             console.log( this.tokenInfo);
             console.log(this.storage);
@@ -578,7 +570,7 @@ export class HomePage {
             this.registrationid(registration.registrationId);
             console.log("line 575==",registration.registrationId)
         });
-
+        
         pushObject.on('error')
         .subscribe((error) =>
         console.error('Error with Push plugin', error));
@@ -587,14 +579,14 @@ export class HomePage {
         console.log("enter registration line 582",registrationId);
         console.log(registrationId);
         
-
-
+        
+        
         this.storage.get('user_type').then((user_type) => {
             this.user_type = user_type;
             console.log(this.user_type);
             console.log(user_type);
             console.log("user_type");
-
+            
         });
         this.storage.get('userId').then((userId) => {
             this.idlogin = userId;
@@ -602,17 +594,17 @@ export class HomePage {
             console.log("userId");
             console.log(userId);
         });
-
+        
         setTimeout(() =>{
             this.service.post_rqst({'registration_id':registrationId,'karigar_id':this.idlogin},'app_karigar/add_registration_id')
             .subscribe((r)=>
             {
                 console.log("success ine 605",registrationId);
                 console.log(r);
-
+                
             });
         }, 5000);
-
-
+        
+        
     }   
 }
