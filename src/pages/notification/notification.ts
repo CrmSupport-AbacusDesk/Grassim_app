@@ -19,6 +19,7 @@ export class NotificationPage {
     karigar_id:any="";
     constructor(public navCtrl: NavController, public navParams: NavParams,private app:App,public service:DbserviceProvider,public storage:Storage,public translate:TranslateService) {
         this.get_user_lang();
+        this.get_notification();
         this.storage.get('token')
         .then(resp=>{
             console.log(jwt_decode(resp));
