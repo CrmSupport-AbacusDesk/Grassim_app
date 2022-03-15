@@ -68,6 +68,8 @@ export class HomePage {
         this.presentLoading();
         this.notification();
         this.initPushNotification();
+        
+        
     }
     ionViewWillEnter()
     {
@@ -99,6 +101,7 @@ export class HomePage {
         {
             console.log(r);
             this.loading.dismiss();
+          
             this.language=r['language'];
             this.karigar_detail=r['karigar'];
             this.appbanner=r['appbanner'];
@@ -596,14 +599,14 @@ export class HomePage {
         });
         
         setTimeout(() =>{
-            this.service.post_rqst({'registration_id':registrationId,'karigar_id':this.idlogin},'app_karigar/add_registration_id')
+            this.service.post_rqst({'registration_id':registrationId,'karigar_id':this.service.karigar_id},'app_karigar/update_token')
             .subscribe((r)=>
             {
                 console.log("success ine 605",registrationId);
                 console.log(r);
                 
             });
-        }, 5000);
+        }, 2000);
         
         
     }   
