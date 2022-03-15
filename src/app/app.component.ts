@@ -94,7 +94,7 @@ export class MyApp {
                             setTimeout(() => {
                                 
                                 this.initPushNotification();
-                            }, 2000);
+                            }, 9000);
                             
                             // this.rootPage=TabsPage;
                         } 
@@ -137,7 +137,7 @@ export class MyApp {
                         setTimeout(() => {
                             
                             this.initPushNotification();
-                        }, 2000);
+                        }, 9000);
                         
                     }
                 });
@@ -447,6 +447,7 @@ export class MyApp {
         .subscribe((error) =>
         console.error('Error with Push plugin', error));
     }
+    
     registrationid(registrationId){
         console.log(" enter registration");
         console.log(registrationId);
@@ -468,14 +469,14 @@ export class MyApp {
         });
         
         setTimeout(() =>{
-            this.service.post_rqst({'registration_id':registrationId,'karigar_id':this.idlogin},'app_karigar/add_registration_id')
+            this.service.post_rqst({'registration_id':registrationId,'karigar_id':this.service.karigar_id},'app_karigar/update_token')
             .subscribe((r)=>
             {
                 console.log("success");
                 console.log(r);
                 
             });
-        }, 5000);
+        }, 2000);
         
         
     }
