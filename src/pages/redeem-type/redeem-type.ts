@@ -71,6 +71,11 @@ export class RedeemTypePage {
         return
       }
       
+    else if(this.data.redeem_amount< 1500){
+   this.showAlert( 'You cannot send redeem request below 1500 points');
+    return
+
+      }
       else if(this.data.redeem_amount > this.walletBal){
         this.showAlert( 'insufficient points to redeem');
         return
