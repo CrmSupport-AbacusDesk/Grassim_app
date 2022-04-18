@@ -321,8 +321,13 @@ export class MyApp {
                         let updateAlert = this.alertCtrl.create({
                             title: this.avl_upd,
                             message: resp+'!',
+                            enableBackdropDismiss:false,
                             buttons: [
-                                {text: this.cancl, },
+                                {text: this.cancl,
+                                    handler: () => {
+                                        this.platform.exitApp();
+                                    } 
+                                },
                                 {text: this.upd_now,
                                     handler: () => {
                                         window.open('https://play.google.com/store/apps/details?id=com.abacusdesk.grassim&hl=en','_system','location=yes');
