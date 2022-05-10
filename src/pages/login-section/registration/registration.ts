@@ -44,33 +44,36 @@ export class RegistrationPage {
         this.uploadurl = this.constant.upload_url;
         this.data.mobile_no = this.navParams.get('mobile_no');
         console.log(this.data.mobile_no);
-        this.data.document_type='Adharcard';
+        // this.data.document_type='Adharcard';
         this.mode = navParams.get('mode')
         this.data.profile='';
         this.data.document_image='';
+        this.data.letter_image='';
+
         this.data.document_image_back='';
         this.data.cheque_image='';
-
-
-
+        
+        
+        
         this.data.user_type=1;
         this.getstatelist();
         this.today_date = new Date().toISOString().slice(0,10);
-
+        
         if(navParams.data.data){
             this.data = navParams.data.data;
             this.data.karigar_edit_id = this.data.id;
             this.data.profile_edit_id = this.data.id;
             this.data.doc_edit_id = this.data.id;
+            this.data.letter_edit_id = this.data.id;
             this.data.doc_back_edit_id = this.data.id;
-
-
+            
+            
             // this.data.profile= this.data.profile;
             // this.data.document_image = this.data.document_image
             // this.data.document_image_back = this.data.document_image_back
             // this.data.cheque_image = this.data.cheque_image
         }
-
+        
         console.log(this.data.karigar_edit_id);
         
     }
@@ -82,12 +85,12 @@ export class RegistrationPage {
     upl_file:any="";
     save_succ:any="";
     ionViewDidLoad() {
-
+        
         this.translate.setDefaultLang(this.lang);
         this.translate.use(this.lang);
         if (this.data.state) {
             this.getDistrictList(this.data.state);
-          }
+        }
         console.log(this.data);
         this.translate.get("Camera")
         .subscribe(resp=>{
@@ -204,23 +207,17 @@ export class RegistrationPage {
                     return
                 }
             }
+            else if(this.data.user_type == 2){
+                if(!this.data.letter_image){
+                    this.presentToast('Letter head image required');
+                    return
+                }
+            }
             
-            // if(!this.data.document_image){
-            //     this.presentToast('Document image required');
-            //     return
-            // }
-
-            // if(!this.data.cheque_image){
-            //     this.presentToast('Cheque image required');
-            //     return
-            // }
-
-
-            this.presentLoading();
             this.data.lang = this.lang;
             
             this.data.created_by='0';
-            console.log(this.data);
+            this.presentLoading();
             this.service.post_rqst( {'karigar': this.data },'app_karigar/addKarigar')
             .subscribe( (r) =>
             {
@@ -229,13 +226,13 @@ export class RegistrationPage {
                 this.karigar_id=r['id'];
                 console.log(this.karigar_id);
                 
-
+                
                 if(r['status'] == 'UPDATED')
                 {
                     this.navCtrl.push(HomePage);    
                 }
                 
-
+                
                 if(r['status']=="SUCCESS")
                 {
                     this.showSuccess(this.save_succ+"!");
@@ -480,6 +477,78 @@ getDocImage()
 }
 
 
+uploadLetterHead(evt: any) {
+    let actionsheet = this.actionSheetController.create({
+        title:this.upl_file,
+        cssClass: 'cs-actionsheet',
+        buttons:[{
+            cssClass: 'sheet-m',
+            text: this.cam,
+            icon:'camera',
+            handler: () => {
+                this.takeLetterHead();
+            }
+        },
+        {
+            cssClass: 'sheet-m1',
+            text: this.gal,
+            icon:'image',
+            handler: () => {
+                this.getLetterHead();
+            }
+        },
+        {
+            cssClass: 'cs-cancel',
+            text: this.cancl,
+            role: 'cancel',
+            handler: () => {
+                this.data.doc_edit_id = this.data.id;
+                console.log('Cancel clicked');
+            }
+        }
+    ]
+});
+actionsheet.present();
+}
+takeLetterHead()
+{
+    const options: CameraOptions = {
+        quality: 75,
+        destinationType: this.camera.DestinationType.DATA_URL,
+        targetWidth : 1050,
+        targetHeight : 1000 
+    }
+    
+    console.log(options);
+    this.camera.getPicture(options).then((imageData) => {
+        this.flag=false;
+        this.data.letter_edit_id='',
+        this.data.letter_image = 'data:image/jpeg;base64,' + imageData;
+        console.log(this.data.letter_image, 'camera line number 527');
+        
+    }, (err) => {
+    });
+}
+getLetterHead()
+{
+    const options: CameraOptions = {
+        quality: 75,
+        destinationType: this.camera.DestinationType.DATA_URL,
+        sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+        saveToPhotoAlbum:false
+    }
+    console.log(options);
+    this.camera.getPicture(options).then((imageData) => {
+        this.flag=false;
+        this.data.letter_edit_id='';
+        this.data.letter_image = 'data:image/jpeg;base64,' + imageData;
+        console.log(this.data.letter_image, 'camera line number 546');
+
+    }, (err) => {
+    });
+}
+
+
 onUploadBackChange(evt: any) {
     let actionsheet = this.actionSheetController.create({
         title:this.upl_file,
@@ -639,7 +708,7 @@ check_bank_account(account_no)
     .subscribe( (r) =>
     {
         console.log(r);
-
+        
         if(r.status== "exist"){
             this.presentToast('Account no. already exist');
             return
